@@ -19,6 +19,6 @@ export class Pet extends BaseEntity{
     @ManyToOne(() => User, user => user.pets)
     user: User;
 
-    @OneToMany(() => Consult, consult => consult.user)
+    @OneToMany(() => Consult, consult => consult.pet)
     consults: Consult[];
 }

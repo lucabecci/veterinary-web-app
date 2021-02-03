@@ -2,11 +2,13 @@ import express, { Application } from "express"
 import cors from 'cors'
 import morgan from 'morgan'
 import Database from "./database/Database"
-
+import UserRouter from './routes/user.routes'
 class App{
     private _app: Application
+    private _userRouter: UserRouter
     constructor(){
         this._app = express()
+        this._userRouter = new UserRouter
 
         this.initDB()
         this.initConfig()
@@ -28,9 +30,10 @@ class App{
         this._app.get('/', (_req, res) => {
             res.send('Index of the veterinary API')
         })
+        this._app.use('/', this._userRouter._router)
     }
 
-    public run(){
+    public run(): void{
         this._app.listen(4000, () => {
             console.log('Server on port: ', 4000)
         })

@@ -27,7 +27,7 @@ export class User extends BaseEntity{
     type: string
 
     @Column()
-    registered: string
+    registered: string //if the user is registered with jwt or google
 
     @OneToMany(() => Pet, pet => pet.user)
     pets: Pet[];

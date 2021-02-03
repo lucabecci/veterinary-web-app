@@ -1,8 +1,5 @@
-
-import { Consult } from "../entities/Consult";
-import { Pet } from "../entities/Pet";
-import { User } from "../entities/User";
 import { createConnection } from "typeorm";
+import path from "path";
 
 class Database {
     public static async getConnection():Promise<void>{
@@ -12,7 +9,9 @@ class Database {
                 await createConnection({
                     type: "postgres",
                     url: process.env.DB_URI,
-                    entities: [User, Consult, Pet]
+                    synchronize: true,
+                    logging: true,
+                    entities: [path.join(__dirname, "../entities/*.*")],
                 })
                 console.log('DB is connected')
                 break
