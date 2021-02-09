@@ -56,7 +56,7 @@ const MainSection = () => {
                   </td>
                   
                   <td className="border-t-2 border-gray-600 px-4 py-3 text-lg text-gray-600">
-                    $70
+                    $70usd
                   </td>
                   
                 </tr>
