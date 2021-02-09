@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from 'react'
-
+import {useHistory} from 'react-router-dom'
 const Navbar:React.FC = () => {
     const [toggle, setToggle] = useState('hidden')
-
+    const history = useHistory()
     const changeToggle = (e: any) => {
         e.preventDefault()
         if(toggle === ''){
@@ -15,7 +15,10 @@ const Navbar:React.FC = () => {
         <Fragment>
             <nav className='relative select-none bg-white lg:flex lg:items-stretch w-full'>
                 <div className='flex flex-no-shrink items-stretch h-12'>
-                    <h2 className='text-gray-900 font-semibold flex-no-grow flex-no-shrink relative py-2 px-4 leading-normal text-white no-underline flex items-center hover:font-bold transition duration-300 hover:text-blue-600'>MORO VETERINARY</h2>
+                    <h2 
+                        className='text-gray-900 font-semibold flex-no-grow flex-no-shrink relative py-2 px-4 leading-normal text-white no-underline flex items-center hover:font-bold transition duration-300 hover:text-blue-600'
+                        onClick={() => history.push('/')}
+                    >MORO VETERINARY</h2>
                     <button 
                         onClick={(e) => changeToggle(e)}
                         className="block lg:hidden cursor-pointer ml-auto relative w-12 h-12 p-4">
@@ -32,9 +35,18 @@ const Navbar:React.FC = () => {
                 </div>
                 <div className={`lg:flex lg:items-stretch lg:flex-no-shrink lg:flex-grow ${toggle}`}>
                     <div className="lg:flex lg:items-stretch lg:justify-end ml-auto">
-                    <p className="font-light text-gray-900 flex-no-grow flex-no-shrink relative py-2 px-4 leading-normal text-white no-underline flex items-center transition duration-300 hover:text-blue-600">SERVICES</p>
-                    <p className="font-light text-gray-900 flex-no-grow flex-no-shrink relative py-2 px-4 leading-normal text-white no-underline flex items-center transition duration-300 hover:text-blue-600">LOGIN</p>
-                    <p className="font-light text-gray-900 flex-no-grow flex-no-shrink relative py-2 px-4 leading-normal text-white no-underline flex items-center transition duration-300 hover:text-blue-600">REGISTER</p>
+                    <p 
+                        className="font-light text-gray-900 flex-no-grow flex-no-shrink relative py-2 px-4 leading-normal text-white no-underline flex items-center transition duration-300 hover:text-blue-600"
+                        onClick ={() => history.push('/services')}
+                    >SERVICES</p>
+                    <p 
+                        className="font-light text-gray-900 flex-no-grow flex-no-shrink relative py-2 px-4 leading-normal text-white no-underline flex items-center transition duration-300 hover:text-blue-600"
+                        onClick ={() => history.push('/login')}
+                    >LOGIN</p>
+                    <p 
+                        className="font-light text-gray-900 flex-no-grow flex-no-shrink relative py-2 px-4 leading-normal text-white no-underline flex items-center transition duration-300 hover:text-blue-600"
+                        onClick ={() => history.push('/register')}
+                    >REGISTER</p>
                     </div>
                 </div>
             </nav>

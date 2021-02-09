@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react'
+import { useHistory } from 'react-router-dom'
 
 const FirstSection = () => {
+    const history = useHistory()
     return (
         <Fragment>
             <section className="text-gray-400 bg-white body-font">
@@ -10,7 +12,10 @@ const FirstSection = () => {
                 </h1>
                 <p className="mb-8 leading-relaxed text-gray-500">Come have a good deal with your pet. We will make your pet and you feel very comfortable, since the client can relax in the relaxation area and your pet will be treated by the best.</p>
                 <div className="flex justify-center">
-                    <button className="inline-flex text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-lg">Start now</button>
+                    <button 
+                        className="inline-flex text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-lg"
+                        onClick={() => history.push('/register')}
+                    >Start now</button>
                 </div>
                 </div>
                 <div className="lg:max-w-lg lg:w-3/6 md:w-4/6 w-4/6">
