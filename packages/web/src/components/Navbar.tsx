@@ -42,11 +42,11 @@ const Navbar:React.FC = () => {
                     <p 
                         className="font-light text-gray-900 flex-no-grow flex-no-shrink relative py-2 px-4 leading-normal text-white no-underline flex items-center transition duration-300 hover:text-blue-600"
                         onClick ={() => history.push('/login')}
-                    >LOGIN</p>
+                    >SIGN IN</p>
                     <p 
                         className="font-light text-gray-900 flex-no-grow flex-no-shrink relative py-2 px-4 leading-normal text-white no-underline flex items-center transition duration-300 hover:text-blue-600"
                         onClick ={() => history.push('/register')}
-                    >REGISTER</p>
+                    >SIGN UP</p>
                     </div>
                 </div>
             </nav>

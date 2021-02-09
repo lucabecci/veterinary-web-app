@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react'
+import MainSection from '../components/Register/MainSection'
 
 const Register = () => {
     return (
         <Fragment>
-            Register
+            <MainSection/>
         </Fragment>
     )
 }

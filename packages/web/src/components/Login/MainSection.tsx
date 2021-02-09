@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import GoogleAuth from '../GoogleAuth'
 
 const MainSection = () => {
 
@@ -14,9 +15,10 @@ const MainSection = () => {
                     <div>
                     
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                        Sign in to your account
+                        Sign in your account
                     </h2>
                     </div>
+                    <GoogleAuth/>
                     <form className="mt-8 space-y-6" onSubmit={(e) => onSubmit(e)}>
                     <input type="hidden" name="remember" value="true"></input>
                     <div className="rounded-md shadow-sm -space-y-px">
