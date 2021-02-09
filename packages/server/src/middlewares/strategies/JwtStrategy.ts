@@ -1,14 +1,13 @@
 import { ExtractJwt, StrategyOptions, Strategy } from "passport-jwt"
-import { User } from "src/entities/User"
+import { User } from "../../entities/User"
 
 class JwtStrategy{
     private _options: StrategyOptions
     public _strategy: Strategy
-
     constructor(){
         this._options ={
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            secretOrKey: process.env.JWT_KEY,
+            secretOrKey: 'test',
         }
         this._strategy = new Strategy(this._options, async(payload, done) => {
             try{

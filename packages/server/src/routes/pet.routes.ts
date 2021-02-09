@@ -1,4 +1,6 @@
 import express, { IRouter } from "express";
+import passport from "passport";
+import PetController from "../controllers/pet.controller";
 
 class PetRouter {
     public _router: IRouter
@@ -9,7 +11,24 @@ class PetRouter {
     }
 
     private routes(){
-        this._router.get('/')
+        this._router.get(
+            '/',
+            passport.authenticate('jwt', {session: false}),
+            PetController.GetAllPets
+            )
+        this._router.post(
+            '/',
+            passport.authenticate('jwt', {session: false}),
+            PetController.CreatePet
+            )
+        this._router.get(
+            '/:id',
+            passport.authenticate('jwt', {session: false}),
+            )
+        this._router.delete(
+            '/:id',
+            passport.authenticate('jwt', {session: false}),
+            )
     }
 
 

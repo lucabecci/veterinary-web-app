@@ -10,7 +10,7 @@ class Database {
                     type: "postgres",
                     url: process.env.DB_URI,
                     synchronize: true,
-                    logging: true,
+                    logging: false,
                     entities: [path.join(__dirname, "../entities/*.*")],
                 })
                 console.log('DB is connected')

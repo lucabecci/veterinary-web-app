@@ -105,6 +105,27 @@ class UserController {
             token
         })
     }
+
+    public static async Account(req: Request, res: Response): Promise<Response>{
+        try{
+            const id = req.user
+            const user = await User.findOne({where:{id}})
+            const userReturn ={
+                email: user?.email,
+                firstName: user?.firstName,
+                lastName:user?.lastName
+            }
+            return res.status(200).json({
+                user: userReturn
+            })
+        }
+
+        catch(e){
+            return res.status(500).json({
+                ok: 'Internal server error'
+            })
+        }
+    }
 }
 
 export default UserController
