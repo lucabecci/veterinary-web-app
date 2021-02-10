@@ -6,14 +6,18 @@ import UserRouter from './routes/user.routes'
 import passport from "passport"
 import JwtStrategy from "./middlewares/strategies/JwtStrategy"
 import PetRouter from "./routes/pet.routes"
+import ConsultRouter from "./routes/consult.routes"
 class App{
     private _app: Application
     private _userRouter: UserRouter
     private _petRouter: PetRouter
+    private _consultRouter: ConsultRouter
     constructor(){
         this._app = express()
         this._userRouter = new UserRouter
         this._petRouter = new PetRouter
+        this._consultRouter = new ConsultRouter
+
         this.initDB()
         this.initConfig()
         this.initRoutes()
@@ -38,6 +42,7 @@ class App{
         })
         this._app.use('/', this._userRouter._router)
         this._app.use('/pets', this._petRouter._router)
+        this._app.use('/consult', this._consultRouter._router)
     }
 
     public run(): void{

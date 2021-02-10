@@ -17,7 +17,7 @@ export class Consult extends BaseEntity{
     date: Date
 
     @Column()
-    hour: Date
+    hour: number
 
     @ManyToOne(() => User, user => user.consults)
     user: User;
