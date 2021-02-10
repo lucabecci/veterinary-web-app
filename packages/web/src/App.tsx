@@ -24,11 +24,17 @@ function App() {
         <Navbar/>
         <Switch>
           <Route exact path='/' component={Home}/>
-          <Route path='/login' component={Login}/>
-          <Route path='/register' component={Register}/>
-          <Route path='/services' component={Services}/>
-          <Route path='/pets' component={Pets}/>
-          <Route path='/consults' component={Consults}/>
+          <Route path='/services' component={Services}/> 
+          {userContext.user  ? 
+            <Route path='/pets' component={Pets}/>
+          : 
+            <Route path='/login' component={Login}/>
+          }
+          {userContext.user ? 
+            <Route path='/consults' component={Consults}/>  
+            :
+            <Route path='/register' component={Register}/>
+          }
           <Route component={NotFound}/>
         </Switch>
         <Footer/>

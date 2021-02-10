@@ -5,9 +5,10 @@ import UserContext from './UserContext'
 import UserReducer from './UserReducer'
 
 
-import {USER_LOGGED, USER_LOGIN, USER_REGISTER} from '../types'
+import {USER_LOGGED, USER_LOGIN, USER_REGISTER, USER_LOGOUT} from '../types'
 
 const UserState = (props: any) => {
+    const proxy = 'http://localhost:4000/'
     const initialState = {
         token: "",
         user: {}
@@ -16,15 +17,19 @@ const UserState = (props: any) => {
 
     const userLogged = async () => {
         let token = localStorage.getItem("auth-token")
+        let data = {
+            token: token,
+            user:  null
+        }
         if(token == null){
             localStorage.setItem("auth-token", "")
             token = ""
         }
         try{ 
-            const tokenResponse = await axios.post("http://localhost:4000/isLogged", null, {
+            const tokenResponse = await axios.post(`${proxy}isLogged`, null, {
                     headers: {Authorization: "Bearer " +  token}
             })
-            const data = {
+            data = {
                 token: token,
                 user:  tokenResponse.data.user
             }
@@ -32,16 +37,39 @@ const UserState = (props: any) => {
         }
         catch(e){
             console.log(e.message)
-            const data = {
-                token: token,
-                user:  null
-            }
             dispatch({type: USER_LOGGED, payload: data})
         }
     }
 
     const userLogin = async (email: string, password: string) => {
-        dispatch({type: USER_LOGIN, payload: {}})
+        let data = {
+            token: "",
+            user: null
+        }
+        try{
+            const userToLogin = {
+                email, 
+                password
+            }
+            const userLogged = await axios.post(`${proxy}login`,userToLogin)
+            const token  = userLogged.data.token
+            const resp = await axios.post(`${proxy}isLogged`, null ,{
+                headers: {Authorization: "Bearer " +  token}
+            })
+            data = {
+                token,
+                user: resp.data.user
+
+            }
+            localStorage.setItem("auth-token",  token)
+            dispatch({type: USER_LOGIN, payload: data})
+            return true
+        }
+        catch(e){
+            dispatch({type: USER_LOGIN, payload: data})
+            return false
+        }
+        
     }
 
     const userRegister = async () => {
@@ -53,7 +81,7 @@ const UserState = (props: any) => {
             token: "",
             user: null
         }
-        dispatch({type: USER_REGISTER, payload: data})
+        dispatch({type: USER_LOGOUT, payload: data})
     }
 
     return (

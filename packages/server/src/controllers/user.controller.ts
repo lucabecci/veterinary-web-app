@@ -43,7 +43,8 @@ class UserController {
                     message: 'Email already in use'
                 })
             }
-            const hash = await bcrypt.hash(user.password, 10);
+            const salt = await bcrypt.genSalt(10)
+            const hash = await bcrypt.hash(user.password, salt);
             user.password = hash
             const newUser = await User.create({
                 email: user.email,
@@ -71,7 +72,7 @@ class UserController {
     public static async Login(req: Request, res: Response): Promise<Response>{
         const userToLogin = {
             email: req.body.email,
-            password: req.body.password
+            password: <string>req.body.password
         }
 
         const campsChecked = checkLogin(userToLogin.email, userToLogin.password)
@@ -82,15 +83,15 @@ class UserController {
             })
         }
 
-        const userExists = await User.findOne({where: {email: userToLogin.email}})
-        if(!userExists){
+        const user = await User.findOne({where: {email: userToLogin.email}})
+        if(!user){
            return res.status(400).json({
                success: false,
                message: 'User doesnt exists'
            }) 
         }
 
-        const valid = await bcrypt.compare(userToLogin.password, userExists.password);
+        const valid = await bcrypt.compareSync(userToLogin.password, user.password);
         if (!valid) {
             return res.status(400).json({
                 success: false,
@@ -98,7 +99,7 @@ class UserController {
             }) 
         }
 
-        const token = await JwtHelper.createToken(userExists.id)
+        const token = await JwtHelper.createToken(user.id)
 
         return res.status(200).json({
             success: true,
