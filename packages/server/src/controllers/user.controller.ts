@@ -116,13 +116,39 @@ class UserController {
                 lastName:user?.lastName
             }
             return res.status(200).json({
+                ok: true,
                 user: userReturn
             })
         }
 
         catch(e){
             return res.status(500).json({
-                ok: 'Internal server error'
+                ok: false,
+                message: 'Internal server error'
+            })
+        }
+    }
+
+    public static async IsLoggedIn(req: Request, res: Response): Promise<Response>{
+        try{
+            const id = req.user
+            const user = await User.findOne({where:{id}})
+            const userReturn ={
+                userId: user?.id,
+                email: user?.email,
+                firstName: user?.firstName,
+                lastName:user?.lastName
+            }
+            return res.status(200).json({
+                ok: true,
+                user: userReturn
+            })
+        }
+
+        catch(e){
+            return res.status(500).json({
+                ok: false,
+                message: 'Internal server error'
             })
         }
     }

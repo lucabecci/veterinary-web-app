@@ -18,6 +18,11 @@ class UserRouter {
             passport.authenticate('jwt', {session: false}),
             UserController.Account
             )
+        this._router.get(
+            '/isLogged', 
+            passport.authenticate('jwt', {session: false}),
+            UserController.IsLoggedIn
+            )
     }
 
 
