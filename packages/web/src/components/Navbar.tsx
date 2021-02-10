@@ -1,7 +1,9 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useContext, useState } from 'react'
 import {useHistory} from 'react-router-dom'
+import UserContext from '../context/User/UserContext'
 const Navbar:React.FC = () => {
     const [toggle, setToggle] = useState('hidden')
+    const userContext = useContext(UserContext)
     const history = useHistory()
     const changeToggle = (e: any) => {
         e.preventDefault()
@@ -10,6 +12,12 @@ const Navbar:React.FC = () => {
             return
         }
         setToggle('')
+    }
+    const logout = (e: any) => {
+        e.preventDefault()
+        localStorage.setItem("auth-token", "")
+        userContext.userLogout()
+        history.push('/')
     }
     return (
         <Fragment>
@@ -39,14 +47,33 @@ const Navbar:React.FC = () => {
                         className="font-light text-gray-900 flex-no-grow flex-no-shrink relative py-2 px-4 leading-normal text-white no-underline flex items-center transition duration-300 hover:text-blue-600"
                         onClick ={() => history.push('/services')}
                     >SERVICES</p>
-                    <p 
-                        className="font-light text-gray-900 flex-no-grow flex-no-shrink relative py-2 px-4 leading-normal text-white no-underline flex items-center transition duration-300 hover:text-blue-600"
-                        onClick ={() => history.push('/login')}
-                    >SIGN IN</p>
-                    <p 
-                        className="font-light text-gray-900 flex-no-grow flex-no-shrink relative py-2 px-4 leading-normal text-white no-underline flex items-center transition duration-300 hover:text-blue-600"
-                        onClick ={() => history.push('/register')}
-                    >SIGN UP</p>
+                    {userContext.user ? (
+                        <Fragment>
+                            <p 
+                                className="font-light text-gray-900 flex-no-grow flex-no-shrink relative py-2 px-4 leading-normal text-white no-underline flex items-center transition duration-300 hover:text-blue-600"
+                                onClick ={() => history.push('/pets')}
+                            >PETS</p>
+                            <p 
+                                className="font-light text-gray-900 flex-no-grow flex-no-shrink relative py-2 px-4 leading-normal text-white no-underline flex items-center transition duration-300 hover:text-blue-600"
+                                onClick ={() => history.push('/consults')}
+                            >CONSULTS</p>
+                            <p 
+                                className="font-light text-gray-900 flex-no-grow flex-no-shrink relative py-2 px-4 leading-normal text-white no-underline flex items-center transition duration-300 hover:text-blue-600"
+                                onClick ={(e) => logout(e)}
+                            >LOGOUT</p>
+                        </Fragment>
+                    ) : (
+                        <Fragment>
+                            <p 
+                                className="font-light text-gray-900 flex-no-grow flex-no-shrink relative py-2 px-4 leading-normal text-white no-underline flex items-center transition duration-300 hover:text-blue-600"
+                                onClick ={() => history.push('/login')}
+                            >SIGN IN</p>
+                            <p 
+                                className="font-light text-gray-900 flex-no-grow flex-no-shrink relative py-2 px-4 leading-normal text-white no-underline flex items-center transition duration-300 hover:text-blue-600"
+                                onClick ={() => history.push('/register')}
+                            >SIGN UP</p>
+                        </Fragment>
+                    )}
                     </div>
                 </div>
             </nav>
