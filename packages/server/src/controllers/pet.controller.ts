@@ -43,6 +43,49 @@ class PetController {
             pet: returned
         })
     }
+
+    public static async GetPet(req: Request, res:Response): Promise<Response>{
+        const id: string = req.params.id
+        if (id == null){
+            return res.status(400).json({
+                ok: false,
+                message: 'Please send a ID'
+            })
+        }
+        const pet: Pet[] = await Pet.find({where:{id}})
+
+        if (pet.length < 1) return res.json({
+            ok: false,
+            message: 'ID not found'
+        })
+        return res.json({
+            ok: true,
+            pet
+        })
+    }
+
+    public static async DeletePet(req: Request, res:Response): Promise<Response>{
+        const id: string = req.params.id
+        if (id == null){
+            return res.status(400).json({
+                ok: false,
+                message: 'Please send a ID'
+            })
+        }
+        const pet = await Pet.createQueryBuilder()
+                                .delete()
+                                .where("id = :id", { id: id })
+                                .execute();
+        if (!pet.affected) return res.json({
+            ok: false,
+            message: 'ID not found'
+        })
+        return res.json({
+            ok: true,
+            message: "Pet deleted"
+        })
+    }
+
 }
 
 export default PetController

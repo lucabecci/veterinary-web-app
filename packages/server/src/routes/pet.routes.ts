@@ -24,10 +24,12 @@ class PetRouter {
         this._router.get(
             '/:id',
             passport.authenticate('jwt', {session: false}),
+            PetController.GetPet
             )
         this._router.delete(
             '/:id',
             passport.authenticate('jwt', {session: false}),
+            PetController.DeletePet
             )
     }
 
