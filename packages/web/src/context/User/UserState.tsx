@@ -63,17 +63,60 @@ const UserState = (props: any) => {
             }
             localStorage.setItem("auth-token",  token)
             dispatch({type: USER_LOGIN, payload: data})
-            return true
+            return {
+                success: true,
+            }
         }
         catch(e){
             dispatch({type: USER_LOGIN, payload: data})
-            return false
+            return {
+                success: false,
+                message: e.response.data.message
+            }
         }
         
     }
 
-    const userRegister = async () => {
-        dispatch({type: USER_REGISTER, payload: {}})
+    const userRegister = async (info: any) => {
+        let data = {
+            token: "",
+            user: null
+        }
+        const toRegister = {
+            firstName: info.firstname,
+            lastName: info.lastname,
+            email: info.email,
+            password: info.password,
+
+        }
+        try{
+            await axios.post(`${proxy}register`, toRegister)
+            const userLogged = await axios.post(`${proxy}login`, {
+                email: info.email,
+                password: info.password
+            })
+            const token  = userLogged.data.token
+            const resp = await axios.post(`${proxy}isLogged`, null ,{
+                headers: {Authorization: "Bearer " +  token}
+            })
+            data = {
+                token,
+                user: resp.data.user
+
+            }
+            localStorage.setItem("auth-token",  token)
+            dispatch({type: USER_REGISTER, payload: data})
+            return {
+                success: true,
+            }
+        }
+        catch(e){
+            dispatch({type: USER_REGISTER, payload: data})
+            return {
+                success: false,
+                message: e.response.data.message
+            }
+        }
     }
 
     const userLogout = () => {

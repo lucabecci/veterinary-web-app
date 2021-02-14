@@ -1,29 +1,45 @@
-import React, { Fragment, useContext } from 'react'
+import React, { Fragment, useContext, useState } from 'react'
 import { useForm } from "react-hook-form";
 import { useHistory } from 'react-router-dom';
 import UserContext from '../../context/User/UserContext';
+import ErrorAlert from '../Alerts/ErrorAlert';
 import GoogleAuth from '../GoogleAuth'
+import { checkEmail } from '../helpers/RegisterHelpers';
 
-type RegisterInputs = {
+type LoginInputs = {
     email: string,
     password: string
 } 
 
 const MainSection = () => {
-    const {register, handleSubmit} = useForm<RegisterInputs>()
+    const {register, handleSubmit} = useForm<LoginInputs>()
+    const [error, setError] = useState<boolean>(false)
+    const [errorMsg, setErrorMsg] = useState<string>("false")
     const userContext = useContext(UserContext)
     const history = useHistory()
-    const SubmitData = async (data: any, e: any) => {
+    const SubmitData = async (data: any, e: any): Promise<void> => {
         e.preventDefault()
+        setError(false)
+        const emailChecked = checkEmail(data.email)
+        if(emailChecked){
+            setErrorMsg("Invalid Email")
+            setError(true)
+            return
+        }
         try{
             const resp = await userContext.userLogin(data.email, data.password)
+            if(resp.success === false){
+                setErrorMsg(resp.message)
+                setError(true)
+                return
+            }
             if(resp){
                 history.push('/')
                 return
             }
         }
         catch(e){
-            console.log(e)
+            console.log("error:", e)
         }
     }
 
@@ -32,11 +48,15 @@ const MainSection = () => {
             <div className="min-h-screen flex items-center justify-center bg-gray-90 py-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-md w-full space-y-8">
                     <div>
-                    
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                         Sign in your account
                     </h2>
                     </div>
+                    {error ? (
+                        <ErrorAlert message={errorMsg}/>
+                    ): (
+                        null
+                    )}
                     <GoogleAuth/>
                     <form 
                         className="mt-8 space-y-6" 

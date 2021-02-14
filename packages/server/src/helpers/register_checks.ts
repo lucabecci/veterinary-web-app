@@ -24,7 +24,7 @@ export function checkEmail(email: string): boolean{
 }
 
 export function checkPassword(password: string): boolean {
-    const pass_rex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+    const pass_rex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
     if(pass_rex.test(password)){
         return false
     }
