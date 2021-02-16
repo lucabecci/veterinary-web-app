@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import UserContext from '../../context/User/UserContext';
 import ErrorAlert from '../Alerts/ErrorAlert';
 import GoogleAuth from '../GoogleAuth'
-import { checkEmail } from '../helpers/RegisterHelpers';
+import { checkEmail } from '../../helpers/RegisterHelpers';
 
 type LoginInputs = {
     email: string,

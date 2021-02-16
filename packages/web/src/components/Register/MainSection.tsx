@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import UserContext from "../../context/User/UserContext";
 import ErrorAlert from "../Alerts/ErrorAlert";
 import GoogleAuth from "../GoogleAuth";
-import { checkEmail, checkPassword, comparePassword } from "../helpers/RegisterHelpers";
+import { checkEmail, checkPassword, comparePassword } from "../../helpers/RegisterHelpers";
 
 type RegisterInputs = {
   firstname: string;

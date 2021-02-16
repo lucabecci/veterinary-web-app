@@ -8,7 +8,7 @@ import UserReducer from './UserReducer'
 import {USER_LOGGED, USER_LOGIN, USER_REGISTER, USER_LOGOUT} from '../types'
 
 const UserState = (props: any) => {
-    const proxy = 'http://localhost:4000/'
+    const proxy = process.env.PROXY || 'http://localhost:4000/'
     const initialState = {
         token: "",
         user: {}

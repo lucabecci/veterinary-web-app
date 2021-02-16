@@ -16,7 +16,8 @@
     "typeorm": "^0.2.30"
   },
   "scripts": {
-    "start:dev": "ts-node-dev src/index.ts"
+    "start:dev": "ts-node-dev src/index.ts",
+    "build": "tsc --build"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
